@@ -46,7 +46,7 @@ class API_Tokenizer:
         self.vocab = {idx: bytes([idx]) for idx in range(256)}
         # Load the weights relative to the script location
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        file_path = os.path.join(base_dir, "web3_tokenizer_300_merges.json")
+        file_path = os.path.join(base_dir, "web3_tokenizer_2000_merges.json")
         self.load_weights(file_path)
 
     def load_weights(self, path):

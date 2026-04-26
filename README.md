@@ -17,20 +17,20 @@ This project tackles this problem head-on by building a BPE tokenizer entirely f
 
 -   **Domain-Specific BPE Tokenization**: Implements a custom Byte Pair Encoding algorithm, trained on 9.8 million characters of deployed smart contracts, to efficiently tokenize Solidity and Web3-specific syntax. This ensures optimal compression and context preservation for AI models.
 -   **FastAPI Backend**: A robust and high-performance web API built with FastAPI, enabling easy integration with other applications (e.g., real-time Ethereum mempool monitoring).
--   **Configurable Merge Rules**: Loads pre-trained merge rules from `web3_tokenizer_300_merges.json`, allowing for flexible and specialized tokenization strategies.
+-   **Configurable Merge Rules**: Loads pre-trained merge rules from `web3_tokenizer_2000_merges.json`, allowing for flexible and specialized tokenization strategies.
 -   **CORS Enabled**: Configured to allow cross-origin requests, facilitating seamless communication with various frontends (e.g., Streamlit applications).
 -   **Health Check Endpoint**: Includes a `/` endpoint to verify the API's operational status.
 -   **Encode Endpoint**: Provides an `/api/v1/encode` endpoint to tokenize source code, returning compressed token IDs.
 
 ## Benchmarks
 
-The custom 300-merge model demonstrates significant compression improvements, effectively tripling the context window for AI models analyzing smart contracts:
+The custom 2000-merge model demonstrates significant compression improvements, effectively tripling the context window for AI models analyzing smart contracts:
 
 | Model       | Test Case                 | Original Bytes | Token Count | Compression Ratio |
 | :---------- | :------------------------ | :------------- | :---------- | :---------------- |
-| 300_merges  | Simple Transfer Function  | 54             | 11          | 2.79X             |
-| 300_merges  | Complex DeFi Staking Contract | 1426           | 490         | 2.91X             |
-| 300_merges  | Out-of-Distribution NFT Contract | -              | -           | 1.87X             |
+| 2000_merges | Simple Transfer Function  | 54             | 11          | 5.61X             |
+| 2000_merges | Complex DeFi Staking Contract | 1426           | 490         | 5.92X             |
+| 2000_merges | Out-of-Distribution NFT Contract | -              | -           | 2.85X             |
 
 These results highlight the effectiveness of training a domain-specific BPE tokenizer for improved compression and representation of specialized codebases, crucial for building robust Web3 security architectures.
 
@@ -71,10 +71,10 @@ To set up the project locally, follow these steps:
 To start the FastAPI application, run the following command from the project root:
 
 ```bash
-uvicorn tokenier_api:app --host 0.0.0.0 --port 8000 --reload
+uvicorn tokenizer_api:app --host 0.0.0.0 --port 8000 --reload
 ```
 
--   `tokenier_api:app`: Refers to the `app` object inside `tokenier_api.py`.
+-   `tokenizer_api:app`: Refers to the `app` object inside `tokenizer_api.py`.
 -   `--host 0.0.0.0`: Makes the server accessible from all network interfaces.
 -   `--port 8000`: Specifies the port to run the server on.
 -   `--reload`: Enables auto-reloading on code changes (useful for development).
@@ -117,11 +117,11 @@ Once the server is running, you can access the API documentation at `http://loca
 
 ## Project Structure
 
--   `tokenier_api.py`: Contains the FastAPI application, BPE tokenizer logic, and API endpoints.
+-   `tokenizer_api.py`: Contains the FastAPI application, BPE tokenizer logic, and API endpoints.
 -   `requirements.txt`: Lists the Python dependencies required for the project.
--   `web3_tokenizer_300_merges.json`: A JSON file containing the pre-trained merge rules for the BPE tokenizer.
+-   `web3_tokenizer_2000_merges.json`: A JSON file containing the pre-trained merge rules for the BPE tokenizer.
 
 ## Error Handling
 
 -   **Empty Source Code**: If an empty `source_code` is provided to the `/api/v1/encode` endpoint, the API will return a `400 Bad Request` error.
--   **Weight Loading Error**: The application will print a fatal error message if it fails to load the `web3_tokenizer_300_merges.json` file. Ensure this file is present and correctly formatted in the same directory as `tokenier_api.py`.
+-   **Weight Loading Error**: The application will print a fatal error message if it fails to load the `web3_tokenizer_2000_merges.json` file. Ensure this file is present and correctly formatted in the same directory as `tokenizer_api.py`.
