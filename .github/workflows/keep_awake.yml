@@ -1,0 +1,14 @@
+name: Heartbeat Protocol
+
+on:
+  schedule:
+    # This cron syntax tells GitHub to run this script every 10 minutes
+    - cron: "*/10 * * * *" 
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render API
+        # We use cURL to silently hit the root health-check endpoint
+        run: curl -s https://zeroxneural-tokenizer.onrender.com/ > /dev/null
